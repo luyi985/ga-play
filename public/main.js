@@ -1,25 +1,33 @@
-(function(w, d) {
-    function onPageViewHandler(e) {
-        if(!dataLayer) return;
-        dataLayer.log('dataLayer');
-        dataLayer.push({
-            event: 'Pageview',
-            attributes: {
-                timeValue: new Date().getTime(),
-                productId: 1234
-            }
-        })
+
+(function(){
+    function getTimeVal() {
+        return new Date().getTime()
     }
 
+    function onPath() {
+        var v = getTimeVal();
+        window.history.pushState('new page', 'new path' + v, '/new-page/' + v);
+    }
 
+    function onHash() {
+        var v = getTimeVal();
+        window.history.pushState('new page', 'new hash' + v, '/new-page#' + v);
+    }
 
+    function onQuery() {
+        var v = getTimeVal();
+        window.history.pushState('new page', 'new query' + v, '/new-page?' + v);
+    }
 
-    w.addEventListener('load', function(){
-        document.querySelectorAll('.js-page-view-trigger').forEach(function(ele) {
-            ele.addEventListener('click', onPageViewHandler);
-        })
+    document.querySelectorAll('.js-url-path').forEach(function(ele) {
+        ele.addEventListener('click', onPath);
     })
-})(window, document)
 
+    document.querySelectorAll('.js-url-hash').forEach(function(ele) {
+        ele.addEventListener('click', onHash);
+    })
 
-
+    document.querySelectorAll('.js-url-query').forEach(function(ele) {
+        ele.addEventListener('click', onQuery);
+    })
+})();
